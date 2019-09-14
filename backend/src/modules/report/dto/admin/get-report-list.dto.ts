@@ -1,6 +1,6 @@
 import { ApiResponseModelProperty } from "@nestjs/swagger";
-import { PagerResponseDto } from "../../../common/pager";
-import { ReportSchema } from "../schema/report.schema";
+import { PagerResponseDto } from "../../../../common/pager";
+import { ReportSchema } from "../../schema/report.schema";
 import { GetReportListItemDto } from "./get-report-list-item.dto";
 
 export class GetReportListDto {
