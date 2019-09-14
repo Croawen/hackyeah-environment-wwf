@@ -4,6 +4,7 @@ import { GetReportDto } from "../dto/get-report.dto";
 import { ReturnSavedReport } from "../dto/return-saved-report.dto";
 import { SaveReportDto } from "../dto/save-report.dto";
 import { ReportService } from "../services/report.service";
+import { GetCityDto } from "../dto/get-cty.dto";
 
 @ApiUseTags("reports")
 @Controller("reports")
@@ -24,5 +25,13 @@ export class ReportController {
   @ApiNotFoundResponse({ description: "Error while saving to database" })
   async add(@Body() dto: SaveReportDto): Promise<ReturnSavedReport> {
     return this.reportService.save(dto);
+  }
+
+  @Get(":id")
+  @ApiOperation({ title: "Get city from report by id." })
+  @ApiOkResponse({ type: GetCityDto })
+  @ApiNotFoundResponse({ description: "City from report with provided id was not found." })
+  async getCityById(@Param("id") reportId: string): Promise<GetCityDto> {
+    return this.reportService.getCityById(reportId);
   }
 }

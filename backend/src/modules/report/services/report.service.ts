@@ -5,6 +5,7 @@ import { GetReportDto } from "../dto/get-report.dto";
 import { ReportSchema } from "../schema/report.schema";
 import { SaveReportDto } from "../dto/save-report.dto";
 import { ReturnSavedReport } from "../dto/return-saved-report.dto";
+import { GetCityDto } from "../dto/get-cty.dto";
 
 @Injectable()
 export class ReportService {
@@ -21,5 +22,12 @@ export class ReportService {
     const dbo = new this.reportModel(report);
     await dbo.save();
     return new ReturnSavedReport(dbo);
+  }
+
+  async getCityById(reportId: string): Promise<GetCityDto> {
+    const report = await this.reportModel.findById(reportId);
+    if (!report) throw new NotFoundException();
+
+    return new GetCityDto(report);
   }
 }
