@@ -4,7 +4,7 @@ import { AppController } from "./app.controller";
 
 @Module({
   imports: [
-    TypegooseModule.forRoot("mongodb://localhost:5000/environment-task", {
+    TypegooseModule.forRoot(process.env.MONGO_URL, {
       useFindAndModify: true,
       useNewUrlParser: true,
     }),
