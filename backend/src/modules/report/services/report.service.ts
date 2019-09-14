@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "nestjs-typegoose";
 import { ModelType } from "typegoose";
-import { GetReportDto } from "./dto/get-report.dto";
-import { ReportSchema } from "./schema/report.schema";
-import { SaveReportDto } from "./dto/save-report.dto";
-import { ReturnSavedReport } from "./dto/return-saved-report.dto";
+import { GetReportDto } from "../dto/get-report.dto";
+import { ReportSchema } from "../schema/report.schema";
+import { SaveReportDto } from "../dto/save-report.dto";
+import { ReturnSavedReport } from "../dto/return-saved-report.dto";
 
 @Injectable()
 export class ReportService {

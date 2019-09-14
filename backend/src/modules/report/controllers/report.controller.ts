@@ -1,7 +1,9 @@
-import { Controller, Get, Inject, Param } from "@nestjs/common";
+import { Controller, Get, Inject, Param, Body, Post } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUseTags } from "@nestjs/swagger";
-import { GetReportDto } from "./dto/get-report.dto";
-import { ReportService } from "./report.service";
+import { GetReportDto } from "../dto/get-report.dto";
+import { ReturnSavedReport } from "../dto/return-saved-report.dto";
+import { SaveReportDto } from "../dto/save-report.dto";
+import { ReportService } from "../services/report.service";
 
 @ApiUseTags("reports")
 @Controller("reports")
