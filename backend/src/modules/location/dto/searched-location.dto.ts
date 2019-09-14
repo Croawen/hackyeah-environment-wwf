@@ -1,8 +1,7 @@
 import { ApiResponseModelProperty } from "@nestjs/swagger";
-import { ReportType } from "../../../report/enum/report-type.enum";
-import { LocationSchema } from "../../schema/location.schema";
+import { LocationSchema } from "../schema/location.schema";
 
-export class GetLocationListItemDto {
+export class SearchedLocationDto {
   @ApiResponseModelProperty()
   id: string;
 
@@ -22,13 +21,10 @@ export class GetLocationListItemDto {
   postCode: string;
 
   @ApiResponseModelProperty()
-  type: ReportType;
+  longitude: number;
 
   @ApiResponseModelProperty()
   latitude: number;
-
-  @ApiResponseModelProperty()
-  longitude: number;
 
   constructor(schema: LocationSchema) {
     this.id = schema._id.toHexString();
@@ -37,7 +33,6 @@ export class GetLocationListItemDto {
     this.address = schema.address;
     this.email = schema.email;
     this.postCode = schema.postCode;
-    this.type = schema.type;
     this.longitude = schema.location[0];
     // @ts-ignore
     this.latitude = schema.location[1];

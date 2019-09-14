@@ -8,6 +8,7 @@ import { ReportModule } from "./modules/report/report.module";
   imports: [
     TypegooseModule.forRoot(process.env.MONGO_URL, {
       useFindAndModify: true,
+      useCreateIndex: true,
       useNewUrlParser: true,
     }),
     ReportModule,
