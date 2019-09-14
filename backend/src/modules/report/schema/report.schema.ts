@@ -1,9 +1,12 @@
 import { ObjectId } from "bson";
 import { Typegoose, prop } from "typegoose";
+import { ReportType } from "../enum/report-type.enum";
 
 export class ReportSchema extends Typegoose {
   _id: ObjectId;
   // user data
+  @prop()
+  type: ReportType;
   @prop()
   name: string;
   @prop()
@@ -11,18 +14,20 @@ export class ReportSchema extends Typegoose {
   @prop()
   city: string;
   @prop()
-  user_email: string;
+  userEmail: string;
   @prop()
   address: string;
   @prop()
   postcode: string;
   // report to
   @prop()
-  facility_name: string;
+  facilityName: string;
   @prop()
-  facility_city: string;
+  facilityCity: string;
   @prop()
-  facility_address: string;
+  facilityAddress: string;
+  @prop()
+  facilityPostcode: string;
   // body
   @prop()
   report: string;

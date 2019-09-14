@@ -1,9 +1,12 @@
 import { ApiResponseModelProperty } from "@nestjs/swagger";
 import { ReportSchema } from "../schema/report.schema";
+import { ReportType } from "../enum/report-type.enum";
 
 export class GetReportDto {
   @ApiResponseModelProperty()
   id: string;
+  @ApiResponseModelProperty()
+  type: ReportType;
   @ApiResponseModelProperty()
   name: string;
   @ApiResponseModelProperty()
@@ -11,18 +14,20 @@ export class GetReportDto {
   @ApiResponseModelProperty()
   city: string;
   @ApiResponseModelProperty()
-  user_email: string;
+  userEmail: string;
   @ApiResponseModelProperty()
   address: string;
   @ApiResponseModelProperty()
   postcode: string;
   // report to
   @ApiResponseModelProperty()
-  facility_name: string;
+  facilityName: string;
   @ApiResponseModelProperty()
-  facility_city: string;
+  facilityCity: string;
   @ApiResponseModelProperty()
-  facility_address: string;
+  facilityAddress: string;
+  @ApiResponseModelProperty()
+  facilityPostcode: string;
   // body
   @ApiResponseModelProperty()
   report: string;
@@ -39,12 +44,12 @@ export class GetReportDto {
     this.name = schema.name;
     this.surname = schema.surname;
     this.city = schema.city;
-    this.user_email = schema.user_email;
+    this.userEmail = schema.userEmail;
     this.address = schema.address;
     this.postcode = schema.postcode;
-    this.facility_name = schema.facility_name;
-    this.facility_city = schema.facility_city;
-    this.facility_address = schema.facility_address;
+    this.facilityName = schema.facilityName;
+    this.facilityCity = schema.facilityCity;
+    this.facilityAddress = schema.facilityAddress;
     this.report = schema.report;
     this.reason = schema.reason;
     this.evidences = schema.evidences;

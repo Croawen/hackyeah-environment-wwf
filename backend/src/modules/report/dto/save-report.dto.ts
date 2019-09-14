@@ -1,7 +1,10 @@
 import { ApiModelProperty } from "@nestjs/swagger";
 import { ReportSchema } from "../schema/report.schema";
+import { ReportType } from "../enum/report-type.enum";
 
 export class SaveReportDto {
+  @ApiModelProperty()
+  type: ReportType;
   @ApiModelProperty()
   name: string;
   @ApiModelProperty()
@@ -9,20 +12,22 @@ export class SaveReportDto {
   @ApiModelProperty()
   city: string;
   @ApiModelProperty()
-  user_email: string;
+  userEmail: string;
   @ApiModelProperty()
   address: string;
   @ApiModelProperty()
   postcode: string;
   // report to
   @ApiModelProperty()
-  facility_name: string;
+  facilityName: string;
   @ApiModelProperty()
-  facility_city: string;
+  facilityCity: string;
   @ApiModelProperty()
-  facility_address: string;
+  facilityAddress: string;
   @ApiModelProperty()
-  facility_email: string;
+  facilityPostcode: string;
+  @ApiModelProperty()
+  facilityEmail: string;
   // body
   @ApiModelProperty()
   report: string;
