@@ -1,10 +1,11 @@
+import "normalize.css";
 import React, { lazy, Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "../routes";
 
 export default () => {
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<p>...</p>}>
       <Switch>
         {routes.map(({ loader, ...route }, index) => {
           const Component = lazy(loader);
