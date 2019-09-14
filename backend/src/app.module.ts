@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypegooseModule } from "nestjs-typegoose";
 import { AppController } from "./app.controller";
+import { LocationModule } from "./modules/location/location.module";
 import { ReportModule } from "./modules/report/report.module";
 
 @Module({
@@ -10,6 +11,7 @@ import { ReportModule } from "./modules/report/report.module";
       useNewUrlParser: true,
     }),
     ReportModule,
+    LocationModule,
   ],
   controllers: [AppController],
   providers: [],

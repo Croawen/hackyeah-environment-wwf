@@ -1,11 +1,11 @@
 import { ApiResponseModelProperty } from "@nestjs/swagger";
-import { ReportSchema } from "../schema/report.schema";
+import { LocationSchema } from "../../schema/location.schema";
 
-export class GetReportListItemDto {
+export class GetLocationDto {
   @ApiResponseModelProperty()
   id: string;
 
-  constructor(schema: ReportSchema) {
+  constructor(schema: LocationSchema) {
     this.id = schema._id.toHexString();
   }
 }
