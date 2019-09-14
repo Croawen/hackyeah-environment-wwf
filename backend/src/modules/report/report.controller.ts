@@ -1,9 +1,10 @@
 import { Controller, Get, Inject, Param } from "@nestjs/common";
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUseTags } from "@nestjs/swagger";
 import { GetReportDto } from "./dto/get-report.dto";
 import { ReportService } from "./report.service";
 
-@Controller()
+@ApiUseTags("reports")
+@Controller("reports")
 export class ReportController {
   constructor(@Inject(ReportService) private readonly reportService: ReportService) {}
 
