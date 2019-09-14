@@ -1,6 +1,7 @@
 import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUseTags } from "@nestjs/swagger";
 import { PagerRequestDto, ParsePagerRequestPipe } from "../../../common/pager";
+import { ParseObjectIdPipe } from "../../../common/pipes/parse-object-id.pipe";
 import { GetReportListDto } from "../dto/admin/get-report-list.dto";
 import { GetReportDto } from "../dto/admin/get-report.dto";
 import { AdminReportService } from "../services/admin-report.service";
@@ -21,7 +22,7 @@ export class AdminReportController {
   @ApiOperation({ title: "Get single report by id." })
   @ApiOkResponse({})
   @ApiNotFoundResponse({ description: "Report with provided id was not found." })
-  async getReportById(@Param("id") reportId: string): Promise<GetReportDto> {
+  async getReportById(@Param("id", new ParseObjectIdPipe()) reportId: string): Promise<GetReportDto> {
     return this.adminReportService.getById(reportId);
   }
 }
