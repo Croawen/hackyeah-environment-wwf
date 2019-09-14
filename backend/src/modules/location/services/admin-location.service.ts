@@ -29,7 +29,7 @@ export class AdminLocationService {
   }
 
   async saveNewLocation(dto: SaveLocationDto): Promise<void> {
-    const dbo = new this.locationModel(dto);
+    const dbo = new this.locationModel({ latitude: undefined, longitude: undefined, location: [dto.longitude, dto.latitude], ...dto });
     await dbo.save();
   }
 
@@ -37,7 +37,7 @@ export class AdminLocationService {
     const location = await this.locationModel.findById(locationId);
     if (!locationId) throw new NotFoundException();
 
-    await this.locationModel.updateOne({ _id: location._id }, dto);
+    await this.locationModel.updateOne({ _id: location._id }, { $set: { latitude: undefined, longitude: undefined, location: [dto.longitude, dto.latitude], ...dto } });
   }
 
   async deleteLocation(locationId: string): Promise<void> {
