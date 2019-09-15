@@ -22,7 +22,7 @@ export async function bootstrap() {
     methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS", "DELETE"],
   });
 
-  await app.listen(4000);
+  await app.listen(process.env.PORT || 4000);
 }
 
 bootstrap();
