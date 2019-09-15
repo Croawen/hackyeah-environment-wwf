@@ -27,12 +27,4 @@ export class ReportController {
   async add(@Body() dto: SaveReportDto): Promise<ReturnSavedReport> {
     return this.reportService.save(dto);
   }
-
-  @Get(":id")
-  @ApiOperation({ title: "Get city from report by id." })
-  @ApiOkResponse({ type: GetCityDto })
-  @ApiNotFoundResponse({ description: "City from report with provided id was not found." })
-  async getCityById(@Param("id", new ParseObjectIdPipe()) reportId: string): Promise<GetCityDto> {
-    return this.reportService.getCityById(reportId);
-  }
 }
