@@ -1,99 +1,44 @@
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from "google-maps-react";
-import React from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
+import Stepper from "../components/Stepper";
+import { Formik } from "formik";
+import Form2 from "./reportPage/Form1";
+import background from "../assets/reportBg.jpg";
+import { withRouter } from "react-router-dom";
+import Step1 from "./reportPage/Step1";
+import Step2 from "./reportPage/Step2";
 
-const LocateMeButton = styled.button`
-  width: 100%;
-  min-height: 35px;
-  border-radius: 2px;
+const BlackButton = styled.button`
+  cursor: pointer;
+  width: 180px;
+  height: 35px;
+  border-radius: 4px;
   border: solid 1px #0d0d0d;
+  color: #ffffff;
   background-color: #0d0d0d;
   font-size: 14px;
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-  color: #ffffff;
 `;
 
-const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 40px 0;
-
-  div:nth-child(2) {
-    margin: 0 12px;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: normal;
-    color: #0d0d0d;
-  }
-
-  div:first-child,
-  div:last-child {
-    border-bottom: 1px solid #0d0d0d;
-    width: 100%;
-  }
-`;
-
-const Input = styled.input`
-  width: 100%;
+const WhiteButton = styled.button`
+  cursor: pointer;
+  width: 180px;
+  height: 35px;
   border-radius: 4px;
-  border: solid 1px #707070;
-  padding: 9px 5px;
-  font-size: 14px;
-  box-sizing: border-box;
-  font-weight: 500;
-`;
-
-const InputLabelText = styled.span`
-  font-size: 14px;
+  border: solid 1px #0d0d0d;
   color: #0d0d0d;
-  margin-bottom: 8px;
-  font-weight: normal;
+  background-color: #ffffff;
+  font-size: 14px;
 `;
 
-const InputLabel = styled.label`
+const Buttons = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 
-  &:not(:last-child) {
-    margin-bottom: 24px;
+  > * {
+    margin: 0 9px;
   }
-`;
-
-const SectionTitle = styled.h4`
-  font-size: 18px;
-  font-weight: 600;
-  color: #0d0d0d;
-`;
-
-const InputColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 220px;
-  margin-right: 20px;
-`;
-
-const MapColumn = styled.div`
-  margin-left: 20px;
-  flex-grow: 1;
-  background-color: red;
-`;
-
-const LocationSection = styled.div`
-  font-size: 18px;
-  font-weight: 600;
-  color: #0d0d0d;
-  display: flex;
-`;
-
-const Form = styled.form`
-  background: white;
-  margin-top: 32px;
-  padding: 40px 56px;
 `;
 
 const StatusPart = styled.div`
@@ -112,6 +57,7 @@ const Content = styled.div`
 
 const Container = styled.div`
   background-color: #0d0d0d;
+  background-image: url(${background});
   background-size: 100vw;
   background-repeat: no-repeat;
   background-position: top center;
@@ -121,61 +67,74 @@ const Container = styled.div`
   overflow: auto;
 `;
 
-const StyledMap = styled(Map)`
-  position: relative !important;
+const FormPart = styled.div`
+  background: white;
+  margin-top: 32px;
+  padding: 40px 56px;
+
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 102px;
 `;
 
-const ReportPage = ({ google }) => {
+const steps = [Step1, Step2];
+
+const ReportPage = withRouter(({ history, google }) => {
+  const [currentStep, setStep] = useState(1);
+
+  const CurrentStepComponent = steps[currentStep];
+
   return (
-    <Container>
-      <NavBar />
-      <Content>
-        <StatusPart>stepper{/* <Stepper></Stepper> */}</StatusPart>
-        <Form>
-          <SectionTitle>Lokalizacja</SectionTitle>
-          <LocationSection>
-            <InputColumn>
-              <InputLabel>
-                <InputLabelText> Miejscowość</InputLabelText>
-                <Input />
-              </InputLabel>
-              <InputLabel>
-                <InputLabelText> Ulica</InputLabelText>
-                <Input />
-              </InputLabel>
-              <InputLabel>
-                <InputLabelText> Kod pocztowy</InputLabelText>
-                <Input />
-              </InputLabel>
-              <Divider>
-                <div></div>
-                <div>lub</div>
-                <div></div>
-              </Divider>
-              <LocateMeButton>Zlokalizuj mnie</LocateMeButton>
-            </InputColumn>
-            <MapColumn>
-              <StyledMap
-                google={google}
-                zoom={6}
-                initialCenter={{ lat: 52, lng: 19 }}>
-                {/* <Marker
-                  onClick={this.onMarkerClick}
-                  name={"Current location"}
-                />
-                <InfoWindow onClose={this.onInfoWindowClose}>
-                  <div>
-                    <h1>{this.state.selectedPlace.name}</h1>
-                  </div>
-                </InfoWindow> */}
-              </StyledMap>
-            </MapColumn>
-          </LocationSection>
-        </Form>
-      </Content>
-    </Container>
+    <Formik
+      validationSchema={null}
+      initialValues={{
+        city: "",
+        street: "",
+        postalCode: "",
+        lat: 0,
+        long: 0,
+        location: null
+      }}
+      enableReinitialize={false}
+      onSubmit={(
+        { city, street, postalCode, lat, long },
+        { setSubmitting }
+      ) => {
+        //TODO
+        setStep(currentStep + 1);
+        setSubmitting(false);
+      }}
+      render={({ submitForm, ...props }) => (
+        <Container>
+          <NavBar />
+          <Content>
+            <StatusPart>
+              <Stepper
+                buttons={[
+                  "Lokalizacja",
+                  "Zgłoszenie",
+                  "Materiały",
+                  "Dane osobowe"
+                ]}
+                current={currentStep + 1}></Stepper>
+            </StatusPart>
+            <FormPart>
+              <CurrentStepComponent {...props} google={google} />
+              <Buttons>
+                <WhiteButton onClick={() => history.goBack()}>
+                  Powrót
+                </WhiteButton>
+                <BlackButton onClick={() => submitForm()}>
+                  Kontynuuj
+                </BlackButton>
+              </Buttons>
+            </FormPart>
+          </Content>
+        </Container>
+      )}
+    />
   );
-};
+});
 
 export default GoogleApiWrapper({
   apiKey: "AIzaSyBaCd5nFWfHN-jjUcfUWtI3oPz_jHww43o",

@@ -217,7 +217,9 @@ const IndexPage = () => {
               <GridItemCaption>
                 <GridItemHeader>
                   <GridItemSpan>{label}</GridItemSpan>
-                  <GridItemButton>Dodaj zgłoszenie</GridItemButton>
+                  <Link to={`/report/${type}`}>
+                    <GridItemButton>Dodaj zgłoszenie</GridItemButton>
+                  </Link>
                 </GridItemHeader>
               </GridItemCaption>
             </GridItem>
