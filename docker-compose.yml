@@ -6,5 +6,5 @@ services:
     restart: on-failure
     ports:
       - "5000:27017"
-    logging:
-      driver: none
+    # logging:
+    #   driver: none

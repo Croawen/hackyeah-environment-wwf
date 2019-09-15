@@ -13,6 +13,7 @@ import { FileModule } from "./modules/files/file.module";
     }),
     TypegooseModule.forRoot(process.env.MONGO_URL, {
       useFindAndModify: true,
+      useCreateIndex: true,
       useNewUrlParser: true,
     }),
     ReportModule,

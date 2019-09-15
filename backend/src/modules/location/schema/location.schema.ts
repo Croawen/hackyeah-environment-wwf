@@ -1,6 +1,8 @@
 import { ObjectId } from "bson";
-import { prop, Typegoose } from "typegoose";
+import { arrayProp, index, prop, Typegoose } from "typegoose";
+import { ReportType } from "../../report/enum/report-type.enum";
 
+@index({ location: "2dsphere" })
 export class LocationSchema extends Typegoose {
   _id: ObjectId;
 
@@ -17,8 +19,11 @@ export class LocationSchema extends Typegoose {
   email: string;
 
   @prop()
-  longitude: number;
+  postCode: string;
 
-  @prop()
-  latitude: number;
+  @prop({ enum: ReportType })
+  type: ReportType;
+
+  @arrayProp({ items: Number })
+  location: [number];
 }
