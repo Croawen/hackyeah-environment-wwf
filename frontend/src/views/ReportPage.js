@@ -10,6 +10,8 @@ import Step1 from "./reportPage/Step1";
 import Step2 from "./reportPage/Step2";
 import Step3 from "./reportPage/Step3";
 import Step4 from "./reportPage/Step4";
+import Step5 from "./reportPage/Step5";
+import externalApi from "../services/externalApi";
 
 const BlackButton = styled.button`
   cursor: pointer;
@@ -77,66 +79,117 @@ const FormPart = styled.div`
   flex-direction: column;
   margin-bottom: 102px;
 `;
+const steps = [Step1, Step2, Step3, Step4, Step5];
 
-const steps = [Step1, Step2, Step3, Step4];
+const ReportPage = withRouter(
+  ({
+    match: {
+      params: { type }
+    },
+    history,
+    google
+  }) => {
+    const [currentStep, setStep] = useState(0);
 
-const ReportPage = withRouter(({ history, google }) => {
-  const [currentStep, setStep] = useState(0);
+    const CurrentStepComponent = steps[currentStep];
+    const [selectedPoint, setPoint] = useState(null);
 
-  const CurrentStepComponent = steps[currentStep];
-
-  return (
-    <Formik
-      validationSchema={null}
-      initialValues={{
-        city: "",
-        street: "",
-        postalCode: "",
-        lat: 0,
-        long: 0,
-        location: null
-      }}
-      enableReinitialize={false}
-      onSubmit={async ({}, { setSubmitting }) => {
-        //TODO
-        setTimeout(() => setStep(currentStep + 1), 1);
-        setSubmitting(false);
-      }}
-      render={({ submitForm, ...props }) => (
-        <Container>
-          <NavBar />
-          <Content>
-            <StatusPart>
-              <Stepper
-                buttons={[
-                  "Lokalizacja",
-                  "Zgłoszenie",
-                  "Materiały",
-                  "Dane osobowe"
-                ]}
-                current={currentStep + 1}></Stepper>
-            </StatusPart>
-            <FormPart>
-              <CurrentStepComponent
-                {...props}
-                submitForm={submitForm}
-                google={google}
-              />
-              <Buttons>
-                <WhiteButton onClick={() => history.goBack()}>
-                  Powrót
-                </WhiteButton>
-                <BlackButton onClick={() => submitForm()}>
-                  Kontynuuj
-                </BlackButton>
-              </Buttons>
-            </FormPart>
-          </Content>
-        </Container>
-      )}
-    />
-  );
-});
+    return (
+      <Formik
+        validationSchema={null}
+        initialValues={{
+          city: "",
+          street: "",
+          postalCode: "",
+          lat: 0,
+          long: 0,
+          location: null,
+          report: "",
+          reason: "",
+          evidences: [],
+          photos: [],
+          name: "",
+          email: ""
+        }}
+        enableReinitialize={false}
+        onSubmit={async (
+          { city, street, postalCode, report, reason, name, email },
+          { setSubmitting }
+        ) => {
+          if (currentStep < 3) {
+            setStep(currentStep + 1);
+            setSubmitting(false);
+          } else if (currentStep === 3) {
+            //send
+            externalApi
+              .url("/reports")
+              .post({
+                type: type,
+                name: name.split(" ")[0],
+                surname: name.split(" ").reverse()[0],
+                city: city,
+                email: email,
+                address: street,
+                postcode: postalCode,
+                facilityName: selectedPoint.name,
+                facilityCity: selectedPoint.city,
+                facilityAddress: selectedPoint.address,
+                facilityPostcode: selectedPoint.postCode,
+                facilityEmail: selectedPoint.email,
+                report: report,
+                reason: reason,
+                evidences: [],
+                photos: []
+              })
+              .then(() => {
+                setStep(currentStep + 1);
+                setSubmitting(false);
+              });
+          } else if (currentStep === 4) {
+            window.location.href = "/";
+            setSubmitting(false);
+          }
+        }}
+        render={({ submitForm, ...props }) => (
+          <Container>
+            <NavBar />
+            <Content>
+              <StatusPart>
+                <Stepper
+                  buttons={[
+                    "Lokalizacja",
+                    "Zgłoszenie",
+                    "Materiały",
+                    "Dane osobowe"
+                  ]}
+                  current={currentStep + 1}></Stepper>
+              </StatusPart>
+              <FormPart>
+                <CurrentStepComponent
+                  selectedPoint={selectedPoint}
+                  setPoint={setPoint}
+                  {...props}
+                  submitForm={submitForm}
+                  google={google}
+                />
+                <Buttons>
+                  {currentStep !== 4 && (
+                    <WhiteButton onClick={() => history.goBack()}>
+                      Powrót
+                    </WhiteButton>
+                  )}
+                  <BlackButton onClick={() => submitForm()}>
+                    {currentStep === 4 ? "Zakończ" : "Kontynuuj"}
+                  </BlackButton>
+                </Buttons>
+              </FormPart>
+            </Content>
+          </Container>
+        )}
+      />
+    );
+  }
+);
 
 export default GoogleApiWrapper({
   apiKey: process.env.GOOGLE_KEY || "",

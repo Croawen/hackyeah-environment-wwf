@@ -1,37 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 
 const Title = styled.h3`
   font-size: 18px;
-  font-weight: 600;
-  color: #0d0d0d;
-`;
-
-const TextArea = styled.textarea`
-  box-sizing: border-box;
-  border-radius: 12px;
-  border: solid 1px #707070;
-  background-color: #ffffff;
-  padding: 20px;
-  opacity: 1;
-  ::placeholder {
-    opacity: 0.6;
-  }
-  font-size: 16px;
-  line-height: 1.71;
-  color: #0d0d0d;
-
-  width: 100%;
-  min-height: 220px;
-  resize: none;
-  margin-bottom: 32px;
-`;
-
-const CollapseTitle = styled.h3`
-  font-size: 18px;
-  cursor: pointer;
   font-weight: 600;
   color: #0d0d0d;
 `;
@@ -47,17 +19,6 @@ const Item = styled.li`
   line-height: 2.29;
   white-space: pre-wrap;
 `;
-
-const CollapseBody = styled.div`
-  overflow: hidden;
-  height: 0;
-  transition: all 0.35s;
-  &[data-opened="true"] {
-    height: 100%;
-  }
-`;
-
-const Collapse = styled.div``;
 
 const Form = styled.form``;
 
