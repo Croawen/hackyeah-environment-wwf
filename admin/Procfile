@@ -1,1 +1,1 @@
-build: npm install && npm run-script start:prod
+build: npm install && npm start
