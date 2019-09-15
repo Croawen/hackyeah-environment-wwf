@@ -6,6 +6,8 @@ import { LocationService } from "../services/location.service";
 import { ReportType } from "../../report/enum/report-type.enum";
 import { GetSuggestedOrganizationsDto } from "../dto/get-suggested-organizations.dto";
 import { sampleLocationsByType } from "../data/sample-locations-by.type";
+import { sampleLawsByType } from "../data/sample-laws-by.type";
+import { GetSuggestedLawsDto } from "../dto/get-suggested-laws.dto";
 
 @ApiUseTags("locations")
 @Controller("locations")
@@ -29,5 +31,15 @@ export class LocationController {
   async getExampleLocationsForType(@Query("type") type: ReportType): Promise<GetSuggestedOrganizationsDto> {
     const data = sampleLocationsByType[type] ? sampleLocationsByType[type] : [];
     return new GetSuggestedOrganizationsDto(data);
+  }
+
+  @Get()
+  @ApiOperation({ title: "Get example laws to base your report on." })
+  @ApiOkResponse({ type: GetSuggestedLawsDto })
+  @ApiBadRequestResponse({ description: "Invalid data provided" })
+  @ApiImplicitQuery({ name: "type", type: String, enum: Object.values(ReportType) })
+  async getExampleLawsForType(@Query("type") type: ReportType): Promise<GetSuggestedLawsDto> {
+    const data = sampleLawsByType[type] ? sampleLawsByType[type] : [];
+    return new GetSuggestedLawsDto(data);
   }
 }

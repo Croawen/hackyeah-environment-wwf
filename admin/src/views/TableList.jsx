@@ -37,11 +37,11 @@ class TableList extends Component {
 
     const res = await api
       .noAuth()
-      .url(`${url}/admin-locations`)
+      .url(`${url}/admin-reports`)
       .get()
       .json();
 
-    if (res && res.items) {
+    if (res && res.items && res.items.length > 0) {
       this.setState({
         items: res.items
       });
