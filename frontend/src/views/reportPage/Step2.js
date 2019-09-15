@@ -91,6 +91,7 @@ export default withRouter(
           <Title>Zawiadomienie o podejrzeniu popełnienia przestępstwa</Title>
           <TextArea
             value={values.report}
+            onChange={handleChange}
             name="report"
             placeholder={`Niniejszym zawiadamiam o podejrzeniu popełnienia przestępstwa stypizowanego w art. 53 Prawa łowieckiego w dniu 22 lipca 2017 roku przez nieznane mi osoby w 
 obszarze Puszczy Zielonki opodal miejscowości Tuczno, gm. Pobiedziska, przejawiającego się w prowadzeniu polowania z wykorzystaniem chartów. 
@@ -101,6 +102,7 @@ Ponadto wnoszę o przeprowadzenie dowodów wskazanych w uzasadnieniu niniejszego
           <Title>Uzasadnienie</Title>
           <TextArea
             value={values.reason}
+            onChange={handleChange}
             name="reason"
             placeholder={`Istnieje uzasadnione podejrzenie, że w dniu 22 lipca 2017 roku  nieznane mi osoby w obszarze Puszczy Zielonki opodal miejscowości Tuczno, gm. Pobiedziska,  prowadziły polowanie z wykorzystaniem chartów.
 Dowód:

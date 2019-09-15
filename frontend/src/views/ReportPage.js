@@ -92,7 +92,7 @@ const ReportPage = withRouter(
     const [currentStep, setStep] = useState(0);
 
     const CurrentStepComponent = steps[currentStep];
-    const [selectedPoint, setPoint] = useState(null);
+    const [selectedPoint, setPoint] = useState({});
 
     return (
       <Formik
@@ -141,7 +141,7 @@ const ReportPage = withRouter(
                 evidences: [],
                 photos: []
               })
-              .then(() => {
+              .json(() => {
                 setStep(currentStep + 1);
                 setSubmitting(false);
               });
