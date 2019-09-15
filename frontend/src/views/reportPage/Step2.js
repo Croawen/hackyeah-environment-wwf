@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
@@ -90,6 +90,8 @@ export default withRouter(
         <Form>
           <Title>Zawiadomienie o podejrzeniu popełnienia przestępstwa</Title>
           <TextArea
+            value={values.report}
+            name="report"
             placeholder={`Niniejszym zawiadamiam o podejrzeniu popełnienia przestępstwa stypizowanego w art. 53 Prawa łowieckiego w dniu 22 lipca 2017 roku przez nieznane mi osoby w 
 obszarze Puszczy Zielonki opodal miejscowości Tuczno, gm. Pobiedziska, przejawiającego się w prowadzeniu polowania z wykorzystaniem chartów. 
 
@@ -98,6 +100,8 @@ Ponadto wnoszę o przeprowadzenie dowodów wskazanych w uzasadnieniu niniejszego
           />
           <Title>Uzasadnienie</Title>
           <TextArea
+            value={values.reason}
+            name="reason"
             placeholder={`Istnieje uzasadnione podejrzenie, że w dniu 22 lipca 2017 roku  nieznane mi osoby w obszarze Puszczy Zielonki opodal miejscowości Tuczno, gm. Pobiedziska,  prowadziły polowanie z wykorzystaniem chartów.
 Dowód:
 1. dokumentacja zdjęciowa (załączona do niniejszego zawiadomienia);

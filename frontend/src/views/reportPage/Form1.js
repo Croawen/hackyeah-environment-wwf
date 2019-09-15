@@ -147,7 +147,7 @@ export default ({
             zoom={6}
             initialCenter={{ lat: 52, lng: 19 }}>
             <Marker
-              draggable={true}
+              draggable={false}
               onClick={() => {}}
               position={{ lat: values.lat, lng: values.long }}
               name={"Current location"}
