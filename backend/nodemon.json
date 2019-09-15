@@ -3,5 +3,5 @@
   "ext": "ts",
   "ignore": ["src/**/*.test.ts", "src/**/*.e2e.ts"],
   "delay": 400,
-  "exec": "node -r ts-node/register --inspect=0.0.0.0:9229 ./src/index.ts"
+  "exec": "node -r ts-node/register ./src/index.ts"
 }
