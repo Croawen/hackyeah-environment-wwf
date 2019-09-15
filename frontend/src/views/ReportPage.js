@@ -1,14 +1,15 @@
-import { GoogleApiWrapper, InfoWindow, Map, Marker } from "google-maps-react";
-import React, { useMemo, useEffect, useState } from "react";
+import { Formik } from "formik";
+import { GoogleApiWrapper } from "google-maps-react";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import background from "../assets/reportBg.jpg";
 import NavBar from "../components/NavBar";
 import Stepper from "../components/Stepper";
-import { Formik } from "formik";
-import Form2 from "./reportPage/Form1";
-import background from "../assets/reportBg.jpg";
-import { withRouter } from "react-router-dom";
 import Step1 from "./reportPage/Step1";
 import Step2 from "./reportPage/Step2";
+import Step3 from "./reportPage/Step3";
+import Step4 from "./reportPage/Step4";
 
 const BlackButton = styled.button`
   cursor: pointer;
@@ -77,10 +78,10 @@ const FormPart = styled.div`
   margin-bottom: 102px;
 `;
 
-const steps = [Step1, Step2];
+const steps = [Step1, Step2, Step3, Step4];
 
 const ReportPage = withRouter(({ history, google }) => {
-  const [currentStep, setStep] = useState(1);
+  const [currentStep, setStep] = useState(0);
 
   const CurrentStepComponent = steps[currentStep];
 
@@ -96,12 +97,9 @@ const ReportPage = withRouter(({ history, google }) => {
         location: null
       }}
       enableReinitialize={false}
-      onSubmit={(
-        { city, street, postalCode, lat, long },
-        { setSubmitting }
-      ) => {
+      onSubmit={async ({}, { setSubmitting }) => {
         //TODO
-        setStep(currentStep + 1);
+        setTimeout(() => setStep(currentStep + 1), 1);
         setSubmitting(false);
       }}
       render={({ submitForm, ...props }) => (
@@ -119,7 +117,11 @@ const ReportPage = withRouter(({ history, google }) => {
                 current={currentStep + 1}></Stepper>
             </StatusPart>
             <FormPart>
-              <CurrentStepComponent {...props} google={google} />
+              <CurrentStepComponent
+                {...props}
+                submitForm={submitForm}
+                google={google}
+              />
               <Buttons>
                 <WhiteButton onClick={() => history.goBack()}>
                   Powrót
@@ -137,6 +139,6 @@ const ReportPage = withRouter(({ history, google }) => {
 });
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyBaCd5nFWfHN-jjUcfUWtI3oPz_jHww43o",
+  apiKey: process.env.GOOGLE_KEY || "",
   LoadingContainer: () => <p>Loading...</p>
 })(ReportPage);

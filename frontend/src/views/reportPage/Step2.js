@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
+import externalApi from "../../services/externalApi";
 
 const Title = styled.h3`
   font-size: 18px;
@@ -73,10 +74,20 @@ export default withRouter(
     setFieldValue
   }) => {
     const [opened, setOpened] = useState(false);
+    const [laws, setLaws] = useState([]);
+
+    useEffect(() => {
+      externalApi
+        .url("/locations/laws")
+        .get({ type })
+        .json(({ items }) => {
+          setLaws(items);
+        });
+    }, [type]);
 
     return (
       <>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <Title>Zawiadomienie o podejrzeniu popełnienia przestępstwa</Title>
           <TextArea
             placeholder={`Niniejszym zawiadamiam o podejrzeniu popełnienia przestępstwa stypizowanego w art. 53 Prawa łowieckiego w dniu 22 lipca 2017 roku przez nieznane mi osoby w 
@@ -101,7 +112,9 @@ W związku z powyższym wnoszę i wywodzę jak na wstępie.`}
             </CollapseTitle>
             <CollapseBody data-opened={opened.toString()}>
               <List>
-                <Item>data</Item>
+                {laws.map((law, index) => (
+                  <Item key={index}>{law}</Item>
+                ))}
               </List>
             </CollapseBody>
           </Collapse>

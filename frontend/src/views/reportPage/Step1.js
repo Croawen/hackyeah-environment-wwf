@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import externalApi from "../../services/externalApi";
 import Form2 from "./Form1";
 
 const Form = styled.form``;
@@ -92,8 +93,32 @@ export default withRouter(
     handleSubmit,
     setFieldValue
   }) => {
+    const [points, setPoints] = useState([]);
+    const [organizations, setOrganizations] = useState([]);
     const [selectedPoint, setPoint] = useState(null);
     const geocoder = new google.maps.Geocoder();
+
+    useEffect(() => {
+      externalApi
+        .url("/locations/organizations")
+        .get({ type })
+        .json(({ items }) => {
+          setOrganizations(items);
+        });
+    }, [type]);
+
+    useEffect(() => {
+      externalApi
+        .url("/locations/search")
+        .post({
+          longitude: values.long,
+          latitude: values.lat,
+          type: type
+        })
+        .json(json => {
+          setPoints(json);
+        });
+    }, [type, values.lat, values.long]);
 
     useEffect(() => {
       geocoder.geocode(
@@ -120,56 +145,55 @@ export default withRouter(
           <ReportDetails>
             <ReportHeader>Komu zgłosić?</ReportHeader>
             <ReportList>
-              {["Rep", "or", "t"].map(val => (
+              {organizations.map(val => (
                 <ReportListItem>{val}</ReportListItem>
               ))}
             </ReportList>
           </ReportDetails>
         </Form>
         <Form2
-          handleSubmit={handleSubmit}
           values={values}
           handleChange={handleChange}
           google={google}
+          getGeolocation={() => {
+            window.navigator.geolocation.getCurrentPosition(position => {
+              const lat = position.coords.latitude;
+              const long = position.coords.longitude;
+              setFieldValue("lat", lat);
+              setFieldValue("long", long);
+            });
+          }}
         />
-        <Form3>
-          <ReportHeader>Wybierz znalezione punkty</ReportHeader>
-          <Points>
-            {[
-              {
-                id: "123",
-                name: "Nadleśnictwo Drewnica",
-                city: "Ząbki",
-                address: "ul. Kolejowa 31",
-                email: "drewnica@warszawa.lasy.gov.pl",
-                postCode: "05-091",
-                longitude: 0,
-                latitude: 0
-              }
-            ].map((item, i, a) => {
-              const { id, name, address, city, postCode, email } = item;
-              return (
-                <Point
-                  key={id}
-                  onClick={() => setPoint(item)}
-                  data-selected={(
-                    (selectedPoint && item.id === selectedPoint.id) ||
-                    false
-                  ).toString()}>
-                  <PointTitle>{name}</PointTitle>
-                  <PointAddress>
-                    Adres:
-                    <br />
-                    {address}
-                    <br />
-                    {postCode} {city}
-                  </PointAddress>
-                  <PointMail>{email}</PointMail>
-                </Point>
-              );
-            })}
-          </Points>
-        </Form3>
+        {(values.lat && (
+          <Form3>
+            <ReportHeader>Wybierz znalezione punkty</ReportHeader>
+            <Points>
+              {points.map((item, i, a) => {
+                const { id, name, address, city, postCode, email } = item;
+                return (
+                  <Point
+                    key={id}
+                    onClick={() => setPoint(item)}
+                    data-selected={(
+                      (selectedPoint && item.id === selectedPoint.id) ||
+                      false
+                    ).toString()}>
+                    <PointTitle>{name}</PointTitle>
+                    <PointAddress>
+                      Adres:
+                      <br />
+                      {address}
+                      <br />
+                      {postCode} {city}
+                    </PointAddress>
+                    <PointMail>{email}</PointMail>
+                  </Point>
+                );
+              })}
+            </Points>
+          </Form3>
+        )) ||
+          ""}
       </>
     );
   }

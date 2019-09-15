@@ -17,6 +17,7 @@ const LocateMeButton = styled.button`
   font-style: normal;
   font-stretch: normal;
   color: #ffffff;
+  cursor: pointer;
 `;
 
 const Divider = styled.div`
@@ -84,7 +85,7 @@ const InputColumn = styled.div`
 const MapColumn = styled.div`
   margin-left: 20px;
   flex-grow: 1;
-  background-color: red;
+  background-color: white;
 `;
 
 const LocationSection = styled.div`
@@ -96,49 +97,63 @@ const LocationSection = styled.div`
 
 const Form = styled.form``;
 
-export default ({ handleSubmit, values, handleChange, google }) => (
-  <Form onSubmit={handleSubmit}>
-    <SectionTitle>Lokalizacja</SectionTitle>
-    <LocationSection>
-      <InputColumn>
-        <InputLabel>
-          <InputLabelText>Miejscowość</InputLabelText>
-          <Input name="city" value={values.city} onChange={handleChange} />
-        </InputLabel>
-        <InputLabel>
-          <InputLabelText>Ulica</InputLabelText>
-          <Input name="street" value={values.street} onChange={handleChange} />
-        </InputLabel>
-        <InputLabel>
-          <InputLabelText>Kod pocztowy</InputLabelText>
-          <Input
-            name="postalCode"
-            value={values.postalCode}
-            onChange={handleChange}
-          />
-        </InputLabel>
-        <Divider>
-          <div></div>
-          <div>lub</div>
-          <div></div>
-        </Divider>
-        <LocateMeButton>Zlokalizuj mnie</LocateMeButton>
-      </InputColumn>
-      <MapColumn>
-        <StyledMap
-          streetViewControl={false}
-          fullscreenControl={false}
-          google={google}
-          zoom={6}
-          initialCenter={{ lat: 52, lng: 19 }}>
-          <Marker
-            draggable={true}
-            onClick={() => {}}
-            position={{ lat: values.lat, lng: values.long }}
-            name={"Current location"}
-          />
-        </StyledMap>
-      </MapColumn>
-    </LocationSection>
-  </Form>
-);
+export default ({
+  handleSubmit,
+  values,
+  handleChange,
+  google,
+  getGeolocation
+}) => {
+  return (
+    <Form>
+      <SectionTitle>Lokalizacja</SectionTitle>
+      <LocationSection>
+        <InputColumn>
+          <InputLabel>
+            <InputLabelText>Miejscowość</InputLabelText>
+            <Input name="city" value={values.city} onChange={handleChange} />
+          </InputLabel>
+          <InputLabel>
+            <InputLabelText>Ulica</InputLabelText>
+            <Input
+              name="street"
+              value={values.street}
+              onChange={handleChange}
+            />
+          </InputLabel>
+          <InputLabel>
+            <InputLabelText>Kod pocztowy</InputLabelText>
+            <Input
+              name="postalCode"
+              value={values.postalCode}
+              onChange={handleChange}
+            />
+          </InputLabel>
+          <Divider>
+            <div></div>
+            <div>lub</div>
+            <div></div>
+          </Divider>
+          <LocateMeButton type="button" onClick={() => getGeolocation()}>
+            Zlokalizuj mnie
+          </LocateMeButton>
+        </InputColumn>
+        <MapColumn>
+          <StyledMap
+            streetViewControl={false}
+            fullscreenControl={false}
+            google={google}
+            zoom={6}
+            initialCenter={{ lat: 52, lng: 19 }}>
+            <Marker
+              draggable={true}
+              onClick={() => {}}
+              position={{ lat: values.lat, lng: values.long }}
+              name={"Current location"}
+            />
+          </StyledMap>
+        </MapColumn>
+      </LocationSection>
+    </Form>
+  );
+};

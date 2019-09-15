@@ -63,7 +63,7 @@ const Container = styled.div`
 const NavBar = () => (
   <Container>
     <Brand>
-      <BrandLink to="#">
+      <BrandLink to="/">
         <BrandImg src={wwfLogo} />
       </BrandLink>
     </Brand>
