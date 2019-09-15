@@ -41,7 +41,7 @@ class TableList extends Component {
       .get()
       .json();
 
-    if (res && res.items) {
+    if (res && res.items && res.items.length > 0) {
       this.setState({
         items: res.items
       });

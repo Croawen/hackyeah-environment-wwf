@@ -21,6 +21,7 @@ import TableList from "views/TableList.jsx";
 import Typography from "views/Typography.jsx";
 import Icons from "views/Icons.jsx";
 import Maps from "views/Maps.jsx";
+import FormComponent from "views/FormComponent.jsx";
 import Notifications from "views/Notifications.jsx";
 import Upgrade from "views/Upgrade.jsx";
 
@@ -40,7 +41,13 @@ const dashboardRoutes = [
     component: TableList,
     layout: "/admin"
   },
-
+  {
+    path: "/add",
+    name: "Dodaj placówki",
+    icon: "pe-7s-add-user",
+    component: FormComponent,
+    layout: "/admin"
+  },
   {
     path: "/maps",
     name: "Mapy",
