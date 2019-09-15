@@ -8,7 +8,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon --config nodemon.json",
-    "heroku-postbuild": "node dist/index.js"
+    "heroku-postbuild": "node src/index.js"
   },
   "author": "",
   "license": "ISC",
