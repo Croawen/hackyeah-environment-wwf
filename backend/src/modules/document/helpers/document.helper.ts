@@ -1,11 +1,15 @@
 import * as Docxtemplater from "docxtemplater";
 import * as JSZip from "jszip";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import * as path from "path";
-export class FillDocument {
+import { resolve } from "path";
+import { ReadStream } from "fs";
+
+export class DocumentHelper {
   //
   static async readFile(
-    data: Object, // Data from exact type of contract
+    data: Object,
+    name: any, // Data from exact type of contract
   ): Promise<Buffer> {
     // Reading file
     const content = fs.readFileSync(path.resolve("assets/documents/template.docx"), "binary");
@@ -22,6 +26,26 @@ export class FillDocument {
       throw error;
     }
     let buffer = doc.getZip().generate({ type: "nodebuffer" });
+
+    const fname = resolve("static", name);
+    await fs.outputFile(`${fname}.docx`, buffer);
+
     return buffer;
+  }
+
+  static async getBufferFromFile(name: any): Promise<ReadStream> {
+    const fname = resolve("static", name);
+    let docx = fs.createReadStream(`${fname}.docx`);
+
+    return docx;
+  }
+
+  static async removeFiles(fname: any): Promise<Boolean> {
+    try {
+      await fs.remove(`${fname}.docx`);
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
 import { InjectModel } from "nestjs-typegoose";
 import { ModelType } from "typegoose";
 import { GetReportDto } from "../dto/get-report.dto";
@@ -6,11 +6,12 @@ import { ReportSchema } from "../schema/report.schema";
 import { SaveReportDto } from "../dto/save-report.dto";
 import { ReturnSavedReport } from "../dto/return-saved-report.dto";
 import { GetCityDto } from "../dto/get-cty.dto";
-import { FillDocument } from "../../document/helpers/fillDocument";
+import { DocumentHelper } from "../../document/helpers/document.helper";
 import * as fs from "fs";
+import { MailService } from "../../common/services/mail.service";
 @Injectable()
 export class ReportService {
-  constructor(@InjectModel(ReportSchema) private readonly reportModel: ModelType<ReportSchema>) {}
+  constructor(@InjectModel(ReportSchema) private readonly reportModel: ModelType<ReportSchema>, @Inject(MailService) private readonly mailService: MailService) {}
 
   async getById(reportId: string): Promise<GetReportDto> {
     const report = await this.reportModel.findById(reportId);
@@ -25,15 +26,12 @@ export class ReportService {
     let current_datetime = new Date();
     let date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
     dbo["date"] = date;
-    const file = await FillDocument.readFile(dbo);
 
-    fs.writeFile("test.docx", file, "binary", function(err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("The file was saved!");
-      }
-    });
+    const file = await DocumentHelper.readFile(dbo, dbo.id);
+
+    await this.mailService.sendFormalMail(dbo.facilityEmail, dbo._id, file);
+    await this.mailService.sendConfirmationMail(dbo.userEmail, dbo._id, file);
+
     return new ReturnSavedReport(dbo);
   }
 
