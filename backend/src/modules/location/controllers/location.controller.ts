@@ -23,7 +23,7 @@ export class LocationController {
     return this.locationService.searchLocations(dto);
   }
 
-  @Get()
+  @Get("organizations")
   @ApiOperation({ title: "Get example organizations to report your issue to." })
   @ApiOkResponse({ type: GetSuggestedOrganizationsDto })
   @ApiBadRequestResponse({ description: "Invalid data provided" })
@@ -33,7 +33,7 @@ export class LocationController {
     return new GetSuggestedOrganizationsDto(data);
   }
 
-  @Get()
+  @Get("laws")
   @ApiOperation({ title: "Get example laws to base your report on." })
   @ApiOkResponse({ type: GetSuggestedLawsDto })
   @ApiBadRequestResponse({ description: "Invalid data provided" })
