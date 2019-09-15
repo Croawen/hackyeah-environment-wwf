@@ -11,9 +11,13 @@ import { FileModule } from "./modules/files/file.module";
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, "..", "static"),
     }),
+    // @ts-ignore
     TypegooseModule.forRoot(process.env.MONGO_URL, {
+      // @ts-ignore
       useFindAndModify: true,
+      // @ts-ignore
       useCreateIndex: true,
+      // @ts-ignore
       useNewUrlParser: true,
     }),
     ReportModule,
