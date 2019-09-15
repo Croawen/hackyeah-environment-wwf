@@ -93,6 +93,7 @@ const LocationSection = styled.div`
   font-weight: 600;
   color: #0d0d0d;
   display: flex;
+  margin-bottom: 16px;
 `;
 
 const Form = styled.form``;
