@@ -8,6 +8,7 @@ import Form2 from "./reportPage/Form1";
 import background from "../assets/reportBg.jpg";
 import { withRouter } from "react-router-dom";
 import Step1 from "./reportPage/Step1";
+import Step2 from "./reportPage/Step2";
 
 const BlackButton = styled.button`
   cursor: pointer;
@@ -76,10 +77,10 @@ const FormPart = styled.div`
   margin-bottom: 102px;
 `;
 
-const steps = [Step1];
+const steps = [Step1, Step2];
 
 const ReportPage = withRouter(({ history, google }) => {
-  const [currentStep, setStep] = useState(0);
+  const [currentStep, setStep] = useState(1);
 
   const CurrentStepComponent = steps[currentStep];
 
@@ -100,6 +101,7 @@ const ReportPage = withRouter(({ history, google }) => {
         { setSubmitting }
       ) => {
         //TODO
+        setStep(currentStep + 1);
         setSubmitting(false);
       }}
       render={({ submitForm, ...props }) => (
