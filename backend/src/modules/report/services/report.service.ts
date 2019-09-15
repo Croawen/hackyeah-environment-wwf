@@ -9,6 +9,7 @@ import { GetCityDto } from "../dto/get-cty.dto";
 import { DocumentHelper } from "../../document/helpers/document.helper";
 import * as fs from "fs";
 import { MailService } from "../../common/services/mail.service";
+import { reportTypeDictionary } from "../data/report-type.dictionary";
 @Injectable()
 export class ReportService {
   constructor(@InjectModel(ReportSchema) private readonly reportModel: ModelType<ReportSchema>, @Inject(MailService) private readonly mailService: MailService) {}
@@ -26,6 +27,7 @@ export class ReportService {
     let current_datetime = new Date();
     let date = current_datetime.getDate() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getFullYear();
     dbo["date"] = date;
+    dbo.type = reportTypeDictionary[dbo.type];
 
     const file = await DocumentHelper.readFile(dbo, dbo.id);
 
