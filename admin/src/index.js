@@ -1,60 +1,39 @@
-import "bootstrap/scss/bootstrap.scss";
-import "ladda/dist/ladda-themeless.min.css";
-import React, { lazy, Suspense } from "react";
+/*!
+
+=========================================================
+* Light Bootstrap Dashboard React - v1.3.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+import React from "react";
 import ReactDOM from "react-dom";
-import {
-  Redirect,
-  Route as PublicRoute,
-  Router,
-  Switch
-} from "react-router-dom";
-import "./App.scss";
-import { loginPath } from "./routes.js";
-import routes from "./routes";
-import * as serviceWorker from "./serviceWorker";
-import { isLoggedIn } from "./utils/auth";
-import ScrollToTop from "./utils/ScrollToTop";
-import history from "./redux/history";
-import { Provider } from "react-redux";
-import store from "./redux/store";
 
-const PrivateRoute = ({ ...props }) =>
-  isLoggedIn() ? <PublicRoute {...props} /> : <Redirect to={loginPath} />;
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-const bootstrap = async () => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <Router history={history}>
-        <ScrollToTop>
-          <div className="noselect">
-            <Suspense fallback={<p>Loading...</p>}>
-              <Switch>
-                {routes.map(route => {
-                  const Component = lazy(route.loader);
-                  const Route = route.protected ? PrivateRoute : PublicRoute;
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/css/animate.min.css";
+import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
+import "./assets/css/demo.css";
+import "./assets/css/pe-icon-7-stroke.css";
 
-                  return (
-                    <Route
-                      key={route.name}
-                      path={route.path}
-                      exact={route.exact}
-                      name={route.name}
-                      component={Component}
-                    />
-                  );
-                })}
-              </Switch>
-            </Suspense>
-          </div>
-        </ScrollToTop>
-      </Router>
-    </Provider>,
-    document.getElementById("root")
-  );
-};
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import AdminLayout from "layouts/Admin.jsx";
 
-bootstrap();
+ReactDOM.render(
+  <BrowserRouter>
+    <Switch>
+      <Route path="/admin" render={props => <AdminLayout {...props} />} />
+      <Redirect from="/" to="/admin/dashboard" />
+    </Switch>
+  </BrowserRouter>,
+  document.getElementById("root")
+);
