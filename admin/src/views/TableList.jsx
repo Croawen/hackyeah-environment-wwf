@@ -32,8 +32,7 @@ class TableList extends Component {
   };
 
   async componentDidMount() {
-    let url = "http://localhost:4000";
-    if (process.env.API_URL) url = process.env.API_URL;
+    const url = "http://hackyeah-environment-backend.herokuapp.com";
 
     const res = await api
       .noAuth()
