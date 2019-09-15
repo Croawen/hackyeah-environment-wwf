@@ -1,1 +1,1 @@
-admin: cd admin && npm install && npm start
+build: npm install && npm start
