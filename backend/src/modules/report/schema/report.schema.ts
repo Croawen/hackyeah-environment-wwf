@@ -28,6 +28,8 @@ export class ReportSchema extends Typegoose {
   facilityAddress: string;
   @prop()
   facilityPostcode: string;
+  @prop()
+  facilityEmail: string;
   // body
   @prop()
   report: string;
