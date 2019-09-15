@@ -91,11 +91,12 @@ export default withRouter(
     values,
     handleChange,
     handleSubmit,
-    setFieldValue
+    setFieldValue,
+    selectedPoint,
+    setPoint
   }) => {
     const [points, setPoints] = useState([]);
     const [organizations, setOrganizations] = useState([]);
-    const [selectedPoint, setPoint] = useState(null);
     const geocoder = new google.maps.Geocoder();
 
     useEffect(() => {
