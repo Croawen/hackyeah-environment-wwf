@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import background from "../assets/index/background.jpg";
 import { ReactComponent as ScrollDownIcon } from "../assets/index/scrollDown.svg";
-import { REPORT_TYPES, SOCIAL_ICONS } from "../constants";
 import NavBar from "../components/NavBar";
+import { REPORT_TYPES, SOCIAL_ICONS } from "../constants";
 
 const Wrapper = styled.div`
   position: relative;
