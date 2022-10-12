@@ -23,7 +23,7 @@
     "@sendgrid/mail": "^6.4.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.10.0",
-    "docxtemplater": "^3.14.3",
+    "docxtemplater": "^3.31.4",
     "dotenv": "^8.1.0",
     "fs-extra": "^8.1.0",
     "jszip": "2",
